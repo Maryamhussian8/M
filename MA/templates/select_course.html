@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Select Course</title>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background-color: #d4f8cb;
+      font-family: Georgia, serif;
+
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    .form-container {
+      background-color: #0a802a;
+      color: white;
+      padding: 30px;
+      border-radius: 10px;
+      width: 380px;
+      max-width: 95%;
+      box-shadow: 0 0 12px rgba(0, 0, 0, 0.2);
+      text-align: center;
+    }
+
+    .form-container label {
+      display: block;
+      text-align: left;
+      margin-left: 5%;
+      margin-top: 10px;
+      font-size: 16px;
+    }
+
+    .form-container select,
+    .form-container button {
+      width: 90%;
+      padding: 10px;
+      margin-top: 8px;
+      border-radius: 8px;
+      border: none;
+      font-size: 16px;
+    }
+
+    .form-container select:invalid {
+      color: #000000ff;
+    }
+
+    .form-container button {
+      background-color: #fdf5e6;
+      color: green;
+      font-weight: bold;
+      margin-top: 15px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .form-container button:hover {
+      background-color: #e6e0d1;
+      transform: translateY(-2px);
+    }
+
+    h2 {
+      margin-bottom: 15px;
+    }
+
+    @media (max-width: 480px) {
+      .form-container {
+        padding: 20px;
+      }
+
+      .form-container label {
+        font-size: 14px;
+      }
+
+      .form-container select,
+      .form-container button {
+        font-size: 14px;
+        padding: 8px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="form-container">
+    <h2>Choose your class:</h2>
+
+    <form method="get" action="{% url 'chapter-list-page' %}">
+
+      <label for="id_college">College:</label>
+      {{ form.college }}
+
+      <label for="id_section">Section:</label>
+      {{ form.section }}
+
+      <label for="id_stage">Stage:</label>
+      {{ form.stage }}
+
+      <label for="id_subject">Subject:</label>
+      {{ form.subject }}
+
+      <button type="submit">Search</button>
+
+    </form>
+  </div>
+
+  <script>
+document.addEventListener('DOMContentLoaded', function () {
+  const collegeField = document.getElementById('id_college');
+  const sectionField = document.getElementById('id_section');
+  const stageField = document.getElementById('id_stage');
+  const subjectField = document.getElementById('id_subject');
+
+  collegeField.addEventListener('change', function () {
+    const collegeId = this.value;
+    fetch(`/api/sections/?college_id=${collegeId}`)
+      .then(response => response.json())
+      .then(data => {
+        sectionField.innerHTML = '<option value="" disabled selected>Select section...</option>';
+        data.results.forEach(item => {
+          sectionField.innerHTML += `<option value="${item.id}">${item.sec_name}</option>`;
+        });
+        stageField.innerHTML = '<option value="" disabled selected>Select stage...</option>';
+        subjectField.innerHTML = '<option value="" disabled selected>Select subject...</option>';
+      });
+  });
+
+  sectionField.addEventListener('change', function () {
+    const sectionId = this.value;
+    fetch(`/api/stages/?section_id=${sectionId}`)
+      .then(response => response.json())
+      .then(data => {
+        stageField.innerHTML = '<option value="" disabled selected>Select stage...</option>';
+        data.results.forEach(item => {
+          stageField.innerHTML += `<option value="${item.id}">${item.stage_name}</option>`;
+        });
+        subjectField.innerHTML = '<option value="" disabled selected>Select subject...</option>';
+      });
+  });
+
+  stageField.addEventListener('change', function () {
+    const stageId = this.value;
+    fetch(`/api/subjects/?stage_id=${stageId}`)
+      .then(response => response.json())
+      .then(data => {
+        subjectField.innerHTML = '<option value="" disabled selected>Select subject...</option>';
+        data.results.forEach(item => {
+          subjectField.innerHTML += `<option value="${item.id}">${item.name}</option>`;
+        });
+      });
+  });
+});
+  </script>
+
+</body>
+</html>

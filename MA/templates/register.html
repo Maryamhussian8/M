@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Register</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <style>
+    body {
+      background: #d4f8cb;
+      font-family: Arial, sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+      padding: 15px;
+    }
+
+    .register-box {
+      background: #0a802a;
+      padding: 40px;
+      border-radius: 12px;
+      text-align: center;
+      color: #fff8e6;
+      width: 100%;
+      max-width: 360px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+    }
+
+    .register-box h2 {
+      margin-bottom: 15px;
+      font-size: 26px;
+    }
+
+    .register-box input {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      border: none;
+      border-radius: 6px;
+      background: #ffffff25;
+      color: #fff8e6;
+      font-size: 15px;
+      transition: 0.3s;
+    }
+
+    .register-box input:focus {
+      outline: 2px solid #a4ff9f;
+      background: #ffffff40;
+    }
+
+    .register-box button {
+      width: 100%;
+      background-color: #fff8e6;
+      color: green;
+      padding: 12px;
+      font-weight: bold;
+      border-radius: 20px;
+      cursor: pointer;
+      border: none;
+      margin-top: 10px;
+      transition: 0.3s;
+      font-size: 15px;
+    }
+
+    .register-box button:hover {
+      background-color: #e3f7d3;
+    }
+
+    .login-link {
+      margin-top: 18px;
+      font-size: 14px;
+    }
+
+    .login-link a {
+      background-color: #fff8e6;
+      color: green;
+      padding: 8px 20px;
+      font-weight: bold;
+      border-radius: 20px;
+      text-decoration: none;
+      transition: 0.3s;
+      display: inline-block;
+      margin-top: 10px;
+    }
+
+    .login-link a:hover {
+      background-color: #e3f7d3;
+    }
+
+    /* Error Box */
+    .error-box {
+      background: rgba(255, 255, 255, 0.15);
+      border: 1px solid #ffaaaa;
+      color: #ffdede;
+      padding: 10px;
+      border-radius: 6px;
+      margin-top: 15px;
+      font-size: 14px;
+      text-align: left;
+    }
+
+    .errorlist {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .errorlist li {
+      margin-left: 5px;
+    }
+
+    @media (max-width: 480px) {
+      .register-box {
+        padding: 30px 25px;
+        border-radius: 10px;
+      }
+
+      .register-box h2 {
+        font-size: 22px;
+      }
+
+      .register-box input {
+        padding: 10px;
+        font-size: 14px;
+      }
+
+      .register-box button {
+        padding: 10px;
+        font-size: 14px;
+      }
+    }
+
+  </style>
+</head>
+<body>
+
+  <div class="register-box">
+    <h2>Sign Up</h2>
+
+    <form method="post">
+      {% csrf_token %}
+
+      {{ form.username.label }}<br>
+      {{ form.username }}<br>
+
+      {{ form.password1.label }}<br>
+      {{ form.password1 }}<br>
+
+      {{ form.password2.label }}<br>
+      {{ form.password2 }}<br>
+
+      <button type="submit">Register</button>
+
+      {% if form.errors %}
+        <div class="error-box">
+          <strong>Please correct the following errors:</strong>
+          {{ form.errors }}
+        </div>
+      {% endif %}
+    </form>
+
+    <div class="login-link">
+      Already have an account?
+      <br>
+      <a href="{% url 'login' %}">Login</a>
+    </div>
+  </div>
+
+</body>
+</html>

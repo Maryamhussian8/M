@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Chapters</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <style>
+    body {
+      background-color: #fff8e7;
+      font-family: "Georgia", serif;
+      margin: 0;
+      padding: 0;
+      text-align: center;
+    }
+
+    header {
+      background-color: #0a802a;
+      color: white;
+      padding: 25px 0 15px;
+      border-bottom-left-radius: 40px;
+      border-bottom-right-radius: 40px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+      position: relative;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 2rem;
+      letter-spacing: 1px;
+    }
+
+    p.subtitle {
+      color: #e8f5e9;
+      font-size: 1rem;
+      margin-top: 8px;
+    }
+
+    .back-button, .login-button {
+      position: absolute;
+      top: 20px;
+      padding: 8px 18px;
+      border-radius: 20px;
+      text-decoration: none;
+      font-weight: bold;
+      border: 2px solid #0a802a;
+      background-color: #fff8e7; 
+      color: #0a802a; 
+      box-shadow: 0 3px 6px rgba(0,0,0,0.15);
+      transition: background-color 0.3s ease, transform 0.2s ease, color 0.3s ease;
+    }
+
+    .back-button { left: 20px; }
+    .login-button { right: 20px; }
+
+    .back-button:hover, .login-button:hover {
+      background-color: #f2e7c9;
+      color: #064b18;
+      transform: translateY(-2px);
+    }
+
+    .chapters-section {
+      margin: 40px auto;
+      width: 90%;
+      max-width: 1000px;
+    }
+
+    .chapters-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 25px;
+    }
+
+    .chapter {
+      background-color: #f2e7c9;
+      border-radius: 18px;
+      padding: 15px;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+
+    .chapter:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 6px 15px rgba(0,0,0,0.2);
+    }
+
+    .chapter img {
+      width: 100%;
+      height: 150px;
+      border-radius: 12px;
+      object-fit: cover;
+    }
+
+    .chapter-title {
+      margin-top: 10px;
+      font-size: 17px;
+      color: #1b5e20;
+      font-weight: bold;
+      text-transform: capitalize;
+    }
+
+    footer {
+      margin-top: 50px;
+      background-color: #0a802a;
+      color: white;
+      padding: 15px 0;
+      font-weight: bold;
+      border-top-left-radius: 40px;
+      border-top-right-radius: 40px;
+    }
+
+    /* Watch History Section */
+    .watch-history-section {
+      margin: 50px auto;
+      padding: 20px;
+      max-width: 1000px;
+      background-color: #f2e7c9;
+      border-radius: 20px;
+      box-shadow: 0 3px 8px rgba(0,0,0,0.15);
+    }
+
+    .watch-history-section h2 {
+      color: #1b5e20;
+      margin-bottom: 15px;
+    }
+
+    .watch-history-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+      justify-content: center;
+    }
+
+    .watch-history-item {
+      background-color: #fff8e6;
+      padding: 10px 15px;
+      border-radius: 12px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      transition: transform 0.2s;
+      min-width: 200px;
+      text-align: center;
+    }
+
+    .watch-history-item:hover {
+      transform: translateY(-3px);
+    }
+
+    .watch-history-item a {
+      color: #0a802a;
+      font-weight: bold;
+      text-decoration: none;
+    }
+
+    .watch-history-item .watched-at {
+      font-size: 12px;
+      color: #4b4b4b;
+      margin-top: 4px;
+    }
+    @media (max-width: 600px) {
+
+      h1 {
+        font-size: 1.5rem;
+      }
+
+      .back-button, .login-button {
+        padding: 6px 14px;
+        font-size: 13px;
+        top: 15px;
+      }
+
+      .chapter img {
+        height: 130px;
+      }
+
+      .chapters-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 15px;
+      }
+
+      .watch-history-item {
+        min-width: 100%;
+      }
+
+      footer {
+        font-size: 13px;
+        padding: 10px 0;
+      }
+    }
+
+  </style>
+</head>
+
+<body>
+
+<header>
+  <a href="{% url 'select-course' %}" class="back-button">← Back to Search</a>
+  <a href="{% url 'login' %}" class="login-button">Login</a>
+  <h1>Welcome to Our Website</h1>
+  <p class="subtitle">Find your college lectures easily!</p>
+</header>
+
+
+<section class="chapters-section">
+  <div class="chapters-grid">
+    {% for chapter in chapters %}
+      <div class="chapter">
+
+        {% if "v=" in chapter.youtube_link %}
+          {% with chapter.youtube_link|cut:"https://www.youtube.com/watch?v=" as video_id %}
+            <a href="{% url 'watch-chapter' chapter.id %}" target="_blank">
+              <img src="https://img.youtube.com/vi/{{ video_id }}/hqdefault.jpg">
+            </a>
+          {% endwith %}
+        {% else %}
+          {% with chapter.youtube_link|slice:"17:" as video_id %}
+            <a href="{% url 'watch-chapter' chapter.id %}" target="_blank">
+              <img src="https://img.youtube.com/vi/{{ video_id }}/hqdefault.jpg">
+            </a>
+          {% endwith %}
+        {% endif %}
+
+        <div class="chapter-title">{{ chapter.chapter_name }}</div>
+      </div>
+
+    {% empty %}
+      <p>No chapters found.</p>
+    {% endfor %}
+  </div>
+</section>
+
+
+{% if user.is_authenticated %}
+<section class="watch-history-section">
+  <h2>Your Recently Watched Chapters</h2>
+  <div class="watch-history-grid">
+
+    {% for h in watch_history %}
+      <div class="watch-history-item">
+        <a href="{{ h.chapter.youtube_link }}" target="_blank">{{ h.chapter.chapter_name }}</a>
+        <p class="watched-at">{{ h.watched_at|date:"M d, Y H:i" }}</p>
+      </div>
+    {% endfor %}
+
+    <a href="{% url 'full-watch-history' %}" class="show-full-btn"
+       style="display:inline-block; margin-top:20px; padding:10px 18px; background:#fff8e7; border:2px solid #0a802a; border-radius:20px; color:#0a802a; text-decoration:none; font-weight:bold;">
+      Show Full Watch History →
+    </a>
+
+  </div>
+</section>
+{% endif %}
+
+
+<footer>
+  {% if college or section or stage or subject %}
+    <p>
+      {% if college %}{{ college.college_name }}{% endif %}
+      {% if section %} | {{ section.sec_name }}{% endif %}
+      {% if stage %} | {{ stage.stage_name }}{% endif %}
+      {% if subject %} | {{ subject.name }}{% endif %}
+    </p>
+  {% else %}
+    <p>No filters selected.</p>
+  {% endif %}
+</footer>
+
+</body>
+</html>

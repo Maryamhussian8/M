@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Full Watch History</title>
+
+  <style>
+    body {
+      background-color: #fff8e7;
+      font-family: "Georgia", serif;
+      text-align: center;
+      margin: 0;
+      padding: 0;
+    }
+
+    header {
+      background-color: #0a802a;
+      color: white;
+      padding: 25px 0 15px;
+      border-bottom-left-radius: 40px;
+      border-bottom-right-radius: 40px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+      position: relative;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 2rem;
+    }
+
+    .back-btn {
+      position: absolute;
+      left: 15px;
+      top: 15px;
+      padding: 8px 18px;
+      background-color: #fff8e7;
+      color: #0a802a;
+      font-weight: bold;
+      border-radius: 22px;
+      text-decoration: none;
+      border: 2px solid #0a802a;
+      box-shadow: 0 3px 6px rgba(0,0,0,0.15);
+      transition: all 0.3s ease;
+      font-size: 14px;
+    }
+
+    .back-btn:hover {
+      background-color: #f2e7c9;
+      transform: translateY(-2px);
+    }
+
+    .history-container {
+      margin: 40px auto;
+      max-width: 900px;
+      background: #f2e7c9;
+      padding: 20px;
+      border-radius: 20px;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+    }
+
+    .history-item {
+      background: #fff8e6;
+      padding: 12px 16px;
+      margin-bottom: 12px;
+      border-radius: 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      flex-wrap: wrap;
+    }
+
+    .history-item a {
+      font-weight: bold;
+      color: #0a802a;
+      text-decoration: none;
+      font-size: 1rem;
+      max-width: 70%;
+      word-wrap: break-word;
+      text-align: left;
+    }
+
+    .history-item .date {
+      font-size: 12px;
+      color: #333;
+    }
+
+    @media (max-width: 600px) {
+      header h1 {
+        font-size: 1.5rem;
+      }
+
+      .back-btn {
+        font-size: 12px;
+        padding: 6px 14px;
+        top: 12px;
+        left: 10px;
+      }
+
+      .history-container {
+        width: 92%;
+        padding: 15px;
+      }
+
+      .history-item {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .history-item a {
+        max-width: 100%;
+        margin-bottom: 6px;
+        font-size: 0.95rem;
+      }
+
+      .history-item .date {
+        font-size: 11px;
+      }
+    }
+
+  </style>
+</head>
+
+<body>
+
+<header>
+  <a href="javascript:history.back()" class="back-btn">
+    ← Back
+  </a>
+  <h1>Full Watch History</h1>
+</header>
+
+<div class="history-container">
+
+  {% if history %}
+    {% for item in history %}
+      <div class="history-item">
+        <a href="{{ item.chapter.youtube_link }}" target="_blank">
+          {{ item.chapter.chapter_name }}
+        </a>
+        <span class="date">{{ item.watched_at|date:"M d, Y H:i" }}</span>
+      </div>
+    {% endfor %}
+  {% else %}
+    <p>No watch history found.</p>
+  {% endif %}
+
+</div>
+
+</body>
+</html>
