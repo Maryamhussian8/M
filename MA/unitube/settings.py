@@ -86,13 +86,10 @@ WSGI_APPLICATION = 'unitube.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
-
 import dj_database_url
 
 DATABASES = {
-    'default': dj_database_url.config(
-        default=f"mysql://{env('DATABASE_USER')}:{env('DATABASE_PASSWORD')}@{env('DATABASE_HOST')}:{env('DATABASE_PORT')}/{env('DATABASE_NAME')}"
-    )
+    "default": dj_database_url.parse(env("DATABASE_URL"))
 }
 
 

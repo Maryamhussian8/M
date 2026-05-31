@@ -16,12 +16,15 @@ idna==3.10
 inflection==0.5.1
 mysqlclient==2.2.7
 packaging==25.0
+psycopg==3.3.4
+psycopg-binary==3.3.4
 psycopg2-binary==2.9.12
 PyJWT==2.9.0
 pytz==2025.2
 PyYAML==6.0.2
 requests==2.32.4
 sqlparse==0.5.3
+typing_extensions==4.15.0
 tzdata==2025.1
 uritemplate==4.2.0
 urllib3==2.5.0
