@@ -95,20 +95,20 @@
 <body>
 
   <div class="form-container">
-    <h2>Choose your class:</h2>
+    <h2>Choose your class</h2>
 
     <form method="get" action="{% url 'chapter-list-page' %}">
 
-      <label for="id_college">College:</label>
+      <label for="id_college">College</label>
       {{ form.college }}
 
-      <label for="id_section">Section:</label>
+      <label for="id_section">Section</label>
       {{ form.section }}
 
-      <label for="id_stage">Stage:</label>
+      <label for="id_stage">Stage</label>
       {{ form.stage }}
 
-      <label for="id_subject">Subject:</label>
+      <label for="id_subject">Subject</label>
       {{ form.subject }}
 
       <button type="submit">Search</button>
